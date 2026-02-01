@@ -1,14 +1,65 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Valentine 💖</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            width: 90%;
+            max-width: 360px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+        }
+
+        .buttons {
+            position: relative;
+            height: 70px;
+        }
+
+        button {
+            padding: 12px 22px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #yesBtn {
+            background: #ff4081;
+            color: white;
+        }
+
+        #noBtn {
+            background: #ccc;
+            position: fixed;
+        }
+    </style>
 </head>
+
 <body>
 
-    <div class="card">
-        <h2 id="question">Will you be my Valentine?</h2>
+    <div class="card" id="card">
+        <h2 id="question">Will you be my Valentine? 💖</h2>
 
         <div class="buttons">
             <button id="yesBtn">Yes 💘</button>
@@ -16,6 +67,54 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Read name from URL
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get("name") || "You";
+
+        document.getElementById("question").innerText =
+            `${name}, will you be my Valentine? 💖`;
+
+        const noBtn = document.getElementById("noBtn");
+
+        function moveNoButton() {
+            const maxX = window.innerWidth - noBtn.offsetWidth - 10;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 10;
+
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        }
+
+        // Desktop
+        noBtn.addEventListener("mouseover", moveNoButton);
+
+        // Mobile
+        noBtn.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Backup
+        noBtn.addEventListener("click", moveNoButton);
+
+        // YES click
+        document.getElementById("yesBtn").onclick = () => {
+            document.body.innerHTML = `
+            <div style="text-align:center; padding:30px;">
+              <h1>YAY!!! 🎉💘</h1>
+              <h2>${name} said YES 😍</h2>
+              <img
+                src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
+                style="width:260px; margin-top:20px; border-radius:12px;"
+                alt="celebration"
+              />
+            </div>
+          `;
+        };
+    </script>
+
 </body>
 </html>
